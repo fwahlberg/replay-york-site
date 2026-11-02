@@ -18,7 +18,11 @@ import { PreviewControls } from "@/components/PreviewControls";
 
 const origin = "https://replayyork.co.uk";
 export async function generateMetadata(): Promise<Metadata> {
-  const { data } = await sanityFetch({ query: WEBSITE_QUERY, stega: false });
+  const { data } = await sanityFetch({
+    query: WEBSITE_QUERY,
+    stega: false,
+    tags: ["replay-website"],
+  });
   const c = contentWithDefaults(data as WebsiteContent | null);
   return {
     metadataBase: new URL(origin),
@@ -51,7 +55,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 export default async function Page() {
-  const { data } = await sanityFetch({ query: WEBSITE_QUERY });
+  const { data } = await sanityFetch({
+    query: WEBSITE_QUERY,
+    tags: ["replay-website"],
+  });
   const c = contentWithDefaults(data as WebsiteContent | null);
   const draft = (await draftMode()).isEnabled;
   const venue = {

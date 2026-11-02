@@ -41,7 +41,8 @@ export type WebsiteContent = Omit<
   seo: Base["seo"] & { shareImage?: Photo };
   visit: Omit<Base["visit"], "faqs"> & { openingHours?: Hours[]; faqs: FAQ[] };
 };
-export const clean = (value: string | undefined): string => stegaClean(value || '');
+export const clean = (value: string | undefined): string =>
+  stegaClean(value || "");
 function merge(base: unknown, value: unknown): unknown {
   if (value === undefined || value === null) return base;
   if (Array.isArray(value) || typeof value !== "object") return value;
@@ -68,6 +69,7 @@ export const edit = (path: string) =>
   createDataAttribute({
     projectId: "7i0l1smd",
     dataset: "production",
+    baseUrl: "/admin",
     id: "website",
     type: "website",
     path,

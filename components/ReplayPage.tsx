@@ -317,6 +317,14 @@ export function ReplayPage({ content: c }: { content: WebsiteContent }) {
                     </>
                   }
                 </div>
+                {clean(c.nights.first.caption) && (
+                  <span
+                    className="saturday-caption"
+                    data-sanity={edit("nights.first.caption")}
+                  >
+                    {c.nights.first.caption}
+                  </span>
+                )}
                 <span className="card-arrow">
                   <svg className="icon">
                     <use href="#arrow"></use>
@@ -457,6 +465,14 @@ export function ReplayPage({ content: c }: { content: WebsiteContent }) {
                 >
                   {<>{lineBreaks(c.nights.celebration.posterTitle)}</>}
                 </div>
+                {clean(c.nights.celebration.caption) && (
+                  <span
+                    className="saturday-caption"
+                    data-sanity={edit("nights.celebration.caption")}
+                  >
+                    {c.nights.celebration.caption}
+                  </span>
+                )}
                 <span className="card-arrow">
                   <svg className="icon">
                     <use href="#arrow"></use>
@@ -527,7 +543,8 @@ export function ReplayPage({ content: c }: { content: WebsiteContent }) {
               {<StoryParagraphs story={c.story} />}
               <a
                 className="text-link"
-                href={safeUrl(c.settings.instagramUrl)} data-sanity={edit("settings.instagramUrl")}
+                href={safeUrl(c.settings.instagramUrl)}
+                data-sanity={edit("settings.instagramUrl")}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -739,7 +756,8 @@ export function ReplayPage({ content: c }: { content: WebsiteContent }) {
             </div>
             <a
               className="closing-social"
-              href={safeUrl(c.settings.instagramUrl)} data-sanity={edit("settings.instagramUrl")}
+              href={safeUrl(c.settings.instagramUrl)}
+              data-sanity={edit("settings.instagramUrl")}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -794,7 +812,8 @@ export function ReplayPage({ content: c }: { content: WebsiteContent }) {
           <p data-sanity={edit("footer.tagline")}>{c.footer.tagline}</p>
           <div className="footer-socials">
             <a
-              href={safeUrl(c.settings.instagramUrl)} data-sanity={edit("settings.instagramUrl")}
+              href={safeUrl(c.settings.instagramUrl)}
+              data-sanity={edit("settings.instagramUrl")}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -804,7 +823,8 @@ export function ReplayPage({ content: c }: { content: WebsiteContent }) {
               </svg>
             </a>
             <a
-              href={safeUrl(c.settings.facebookUrl)} data-sanity={edit("settings.facebookUrl")}
+              href={safeUrl(c.settings.facebookUrl)}
+              data-sanity={edit("settings.facebookUrl")}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -821,14 +841,16 @@ export function ReplayPage({ content: c }: { content: WebsiteContent }) {
           </span>
           <span className="footer-links">
             <a
-              href={safeUrl(c.settings.lostPropertyUrl)} data-sanity={edit("settings.lostPropertyUrl")}
+              href={safeUrl(c.settings.lostPropertyUrl)}
+              data-sanity={edit("settings.lostPropertyUrl")}
               target="_blank"
               rel="noopener noreferrer"
             >
               Lost property
             </a>
             <a
-              href={safeUrl(c.settings.giftCardsUrl)} data-sanity={edit("settings.giftCardsUrl")}
+              href={safeUrl(c.settings.giftCardsUrl)}
+              data-sanity={edit("settings.giftCardsUrl")}
               target="_blank"
               rel="noopener noreferrer"
             >

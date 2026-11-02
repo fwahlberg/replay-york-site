@@ -27,6 +27,8 @@ test('Next serves the complete public site with SEO, hours and tracked ticket li
   assert.equal($('#reward-dialog, [data-reward]').length,0)
   assert.equal($('.preview-control').length,0)
   assert.equal($('[data-sanity]').length>25,true)
+  assert.match($('#hero-title').attr('data-sanity'),/base=%2Fadmin/)
+  assert.doesNotMatch(html,/sk[A-Za-z0-9_-]{80,}/)
 })
 test('anonymous visitors cannot enable draft preview',async()=>{
   const response=await fetch(`${origin}/api/draft-mode/enable`,{redirect:'manual'})
@@ -42,4 +44,9 @@ test('admin deep links and the health endpoint resolve on Next',async()=>{
   const health=await fetch(`${origin}/api/health`)
   assert.equal(health.status,200)
   assert.deepEqual(await health.json(),{status:'ok'})
+})
+test('unsigned requests cannot refresh the public cache',async()=>{
+  const response=await fetch(`${origin}/api/revalidate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({_id:'website',_type:'website'})})
+  assert.equal(response.status,process.env.REPLAY_REQUIRE_PUBLISHING==='true'?401:503)
+  await response.text()
 })

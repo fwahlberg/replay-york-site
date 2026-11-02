@@ -160,6 +160,12 @@ const website = defineType({
             ),
             photo(),
             text("photoAlt", "Describe the photograph for accessibility", 240),
+            defineField({
+              name: "caption",
+              title: "Image caption (optional)",
+              type: "string",
+              validation: (r) => r.max(70),
+            }),
           ],
         }),
       ],
