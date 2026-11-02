@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://replayyork.co.uk/sitemap.xml
+Sitemap: https://www.replayyork.co.uk/sitemap.xml

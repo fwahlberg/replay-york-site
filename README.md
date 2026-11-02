@@ -2,7 +2,7 @@
 
 Website: https://replay-york-next.onrender.com
 Visual editor: https://replay-york-next.onrender.com/admin/
-Production domain: https://replayyork.co.uk (DNS must point to this Render service).
+Production domain: https://www.replayyork.co.uk (the root domain redirects here).
 
 The site uses Next.js App Router, React and Sanity. The existing design, native-scroll play animation, parallax, mobile menu, enquiry dialog, Leaflet map, Google-sourced opening hours and UTM booking links are preserved.
 
@@ -63,11 +63,11 @@ Build command: `npm ci && npm run build`.
 Start command: `npm start`.
 Health check: `/api/health`.
 Environment: `NODE_VERSION=22.18.0`, `SKIP_INSTALL_DEPS=true`, plus the two private Sanity settings above.
-The migration was first deployed from `next-visual-editor`.
+The production service builds `main`. The original static implementation is preserved on `static-backup`.
 
 The selected Render compute plan is **Free**. Free web services sleep after 15 minutes without traffic; the next visit can take about a minute to start. Monthly compute, bandwidth and build limits also apply. Sanity's editor uses Free-plan features; releases, scheduling and comments are disabled.
 
-Legacy static service: `srv-dbkf43mk1f9s73d5us90`, https://replay-york.onrender.com. It remains a fallback during migration.
+Legacy static service: `srv-dbkf43mk1f9s73d5us90`, https://replay-york.onrender.com. It is suspended and can be resumed as a fallback from `static-backup`.
 
 ## Sanity project and publishing
 
@@ -79,19 +79,19 @@ The publishing webhook belongs to the `production` dataset with create/update en
 After schema changes, update Sanity's registered schema from `studio/`:
 
 ```sh
-../node_modules/.bin/sanity deploy --external --url https://replayyork.co.uk/admin --schema-required --yes
+../node_modules/.bin/sanity deploy --external --url https://www.replayyork.co.uk/admin --schema-required --yes
 ```
 
 ## Domain DNS
 
-Configure the custom domains on the Next.js service and replace the old website DNS records:
+Both custom domains are attached to the Next.js service with certificates issued. The desired website DNS records are:
 
 | Type | Host | Value |
 | --- | --- | --- |
 | A | @ | 216.24.57.1 |
 | CNAME | www | replay-york-next.onrender.com |
 
-Remove the old root AAAA record. Leave email records unchanged. Render handles HTTPS after verification; www redirects to the root domain.
+The root A record and removal of the old AAAA record are verified. The www CNAME still points at the old Render hostname and should be updated to the value above. Leave email records unchanged. Render redirects the root domain to www, matching the canonical URL and sitemap.
 
 ## Opening-hours source
 

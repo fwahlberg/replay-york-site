@@ -16,7 +16,7 @@ import { ReplayPage } from "@/components/ReplayPage";
 import { SiteEffects } from "@/components/SiteEffects";
 import { PreviewControls } from "@/components/PreviewControls";
 
-const origin = "https://replayyork.co.uk";
+const origin = "https://www.replayyork.co.uk";
 export async function generateMetadata(): Promise<Metadata> {
   const { data } = await sanityFetch({
     query: WEBSITE_QUERY,

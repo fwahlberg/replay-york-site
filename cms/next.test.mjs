@@ -8,7 +8,7 @@ test('Next serves the complete public site with SEO, hours and tracked ticket li
   assert.equal(response.status,200)
   const html=await response.text(),$=load(html)
   assert.match($('h1').text(),/GOOD TIMES.*ON REPEAT/s)
-  assert.equal(new URL($('link[rel="canonical"]').attr('href')).href,'https://replayyork.co.uk/')
+  assert.equal(new URL($('link[rel="canonical"]').attr('href')).href,'https://www.replayyork.co.uk/')
   assert.equal($('.opening-hours dt').length,7)
   assert.equal($('.opening-hours dt').first().text(),'Monday')
   assert.equal($('.opening-hours dd').first().text(),'Closed')
