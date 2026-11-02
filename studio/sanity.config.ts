@@ -67,9 +67,13 @@ const website = defineType({
       multiline('description','Location introduction',400),
       defineField({name:'openingHours',title:'Regular opening hours (optional)',type:'array',description:'Only add confirmed regular hours. Event-specific times can stay on the ticket listings.',of:[{type:'object',name:'hours',fields:[
         defineField({name:'day',title:'Day',type:'string',options:{list:['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']},validation:r=>r.required()}),
-        defineField({name:'opens',title:'Opens (24-hour time)',type:'string',validation:r=>r.required().regex(/^([01]\d|2[0-3]):[0-5]\d$/)}),
-        defineField({name:'closes',title:'Closes (24-hour time)',type:'string',validation:r=>r.required().regex(/^([01]\d|2[0-3]):[0-5]\d$/)}),
-      ],preview:{select:{title:'day',subtitle:'opens'}}}],validation:r=>r.max(7)}),
+        defineField({name:'closed',title:'Closed on this day',type:'boolean',initialValue:false}),
+        ...['opens','closes'].map(name=>defineField({name,title:name==='opens'?'Opens (24-hour time)':'Closes (24-hour time)',type:'string',hidden:({parent})=>parent?.closed,
+          validation:r=>r.custom((value,context)=>(context.parent as {closed?:boolean})?.closed || (typeof value==='string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value)) ? true : 'Enter a 24-hour time, such as 22:00.')})),
+      ],preview:{select:{title:'day',opens:'opens',closes:'closes',closed:'closed'},prepare:({title,opens,closes,closed})=>({title,subtitle:closed?'Closed':`${opens || '…'}–${closes || '…'}`})}}],validation:r=>r.max(7).custom(value=>{
+        const days=(value || []).map((row: {day?:string})=>row.day).filter(Boolean);
+        return new Set(days).size===days.length || 'Include each day only once.';
+      })}),
       defineField({name:'faqs',title:'Frequently asked questions',type:'array',of:[{type:'object',name:'faq',fields:[
         text('question','Question',140), multiline('answer','Answer',800),
         defineField({name:'action',title:'Optional link or button',type:'string',options:{list:[{title:'No link',value:'none'},{title:'Website link',value:'link'},{title:'Open group enquiry',value:'enquiry'}]},initialValue:'none'}),

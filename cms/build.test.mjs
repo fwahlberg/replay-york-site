@@ -25,7 +25,7 @@ test('published content renders safely, keeps tracked links and fails without re
     content.nights.first.ticketUrl='https://example.com/friday';
     content.settings.lostPropertyUrl='https://example.com/lost-property';
     delete content.story.photoNote;
-    content.visit.openingHours=[{day:'Friday',opens:'22:00',closes:'03:00'}];
+    content.visit.openingHours=[{day:'Friday',opens:'22:00',closes:'03:00'},{day:'Monday',closed:true}];
     assert.equal(build(content).status,0);
     const $=load(await readFile(output,'utf8'));
     assert.equal($('#hero-title script').length,0);
@@ -44,7 +44,13 @@ test('published content renders safely, keeps tracked links and fails without re
     assert.equal(new URL($('.friday-art').attr('href')).pathname,'/friday');
     const schema=JSON.parse($('script[type="application/ld+json"]').text());
     const venue=schema['@graph'].find(x=>x['@type']==='NightClub');
-    assert.equal(venue.openingHoursSpecification[0].closes,'03:00');
+    assert.equal(venue.openingHoursSpecification[0].dayOfWeek,'https://schema.org/Monday');
+    assert.equal(venue.openingHoursSpecification[0].opens,'00:00');
+    assert.equal(venue.openingHoursSpecification[0].closes,'00:00');
+    assert.equal(venue.openingHoursSpecification[1].closes,'03:00');
+    assert.equal($('.opening-hours dt').first().text(),'Monday');
+    assert.equal($('.opening-hours dd').first().text(),'Closed');
+    assert.match($('.opening-hours dd').last().text(),/10pm.*3am/);
     assert.equal(venue.email,'bookings@example.com');
     assert.equal($('[href*="reward"], #reward-dialog').length,0);
     const good=await readFile(output,'utf8');

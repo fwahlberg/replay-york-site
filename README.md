@@ -69,3 +69,7 @@ Sanity's project has an automatic Growth trial that downgrades to Free. This int
 Paid scheduling, releases and comments are disabled in the editor. Compatible dependency overrides patch high-severity advisories in Sanity's build-tool dependencies; upstream CLI dependencies still report moderate advisories.
 
 Keep the Render deploy-hook URL secret. It belongs only in the Sanity publishing webhook configuration, never in this repository or browser JavaScript.
+
+Opening-hours source checked on 2 November 2026: Google Maps, **REPLAY Nightclub York**, 3 George Hudson Street (place ID `ChIJ1cYjLqgxeUgRV1KwGwZuQ44`). Monday closed; Tuesday 22:00–03:00; Wednesday 21:00–03:00; Thursday 22:00–03:00; Friday 18:00–03:00; Saturday 15:00–03:00; Sunday 22:00–03:00. These are editable content, not an ongoing Google sync.
+
+The existing public photos were uploaded to Sanity during initial setup. `cms/seed-assets.mjs` can add missing image references without replacing existing image selections or publishing a draft.

@@ -138,8 +138,13 @@ if (logo) {$('.brand').addClass('has-custom-logo'); $('.brand img').attr('src', 
 const hours = c.visit.openingHours || [];
 if (hours.length) {
   const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  if (hours.some(h => !days.includes(h.day) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(h.opens) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(h.closes))) throw new Error('Invalid regular opening hours.');
-  $('.visit-description').after(`<div class="opening-hours"><h3>Regular opening hours</h3>${hours.map(h=>`<p>${escape(h.day)} <span>${escape(h.opens)}–${escape(h.closes)}</span></p>`).join('')}</div>`);
+  if (new Set(hours.map(h=>h.day)).size !== hours.length || hours.some(h => !days.includes(h.day) || (!h.closed && (!/^([01]\d|2[0-3]):[0-5]\d$/.test(h.opens) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(h.closes))))) throw new Error('Invalid regular opening hours.');
+  hours.sort((a,b)=>days.indexOf(a.day)-days.indexOf(b.day));
+  const time = value => {
+    const [hour,minute]=value.split(':').map(Number);
+    return `${hour % 12 || 12}${minute ? `:${String(minute).padStart(2,'0')}` : ''}${hour < 12 ? 'am' : 'pm'}`;
+  };
+  $('.visit-description').after(`<div class="opening-hours" id="opening-hours"><h3>Opening hours</h3><dl>${hours.map(h=>`<div${h.closed?' class="is-closed"':''}><dt>${escape(h.day)}</dt><dd>${h.closed?'Closed':`${time(h.opens)} <span aria-hidden="true">–</span><span class="sr-only">to</span> ${time(h.closes)}`}</dd></div>`).join('')}</dl></div>`);
 }
 $('.faq details').remove();
 for (const [index, item] of c.visit.faqs.entries()) {
@@ -185,7 +190,7 @@ venue.email = c.settings.email;
 venue.sameAs = [https(c.settings.instagramUrl).href, https(c.settings.facebookUrl).href];
 venue.description = c.seo.description;
 if (share) venue.image = share;
-if (hours.length) venue.openingHoursSpecification = hours.map(h=>({'@type':'OpeningHoursSpecification',dayOfWeek:`https://schema.org/${h.day}`,opens:h.opens,closes:h.closes}));
+if (hours.length) venue.openingHoursSpecification = hours.map(h=>({'@type':'OpeningHoursSpecification',dayOfWeek:`https://schema.org/${h.day}`,opens:h.closed?'00:00':h.opens,closes:h.closed?'00:00':h.closes}));
 $('script[type="application/ld+json"]').text(JSON.stringify(structured).replaceAll('<', '\\u003c'));
 await writeFile(new URL('dist/index.html', root), $.html().replace(/[\t ]+$/gm, ''));
 console.log(`Built public website from ${published ? `published Sanity content (${published._rev})` : 'original content'}.`);
