@@ -93,13 +93,14 @@ const website = defineType({
 
 export default defineConfig({
   name:'replay-york', title:'Replay York', projectId:'7i0l1smd', dataset:'production',
+  releases:{enabled:false}, scheduledDrafts:{enabled:false}, scheduledPublishing:{enabled:false},
   plugins:[structureTool({structure:S=>S.list().title('Replay York').items([
     S.listItem().title('Website content').id('website').child(
       S.document().schemaType('website').documentId('website').title('Website content'),
     ),
   ])})],
   schema:{types:[website],templates:[]},
-  document:{actions:(previous, context)=>context.schemaType==='website'
+  document:{comments:{enabled:false},actions:(previous, context)=>context.schemaType==='website'
     ? previous.filter(a=>!['delete','duplicate','unpublish'].includes(a.action || ''))
     : previous},
 })

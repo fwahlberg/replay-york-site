@@ -66,5 +66,6 @@ Point these records at Render (replace the existing website records):
 Remove the old root AAAA record, which points to the previous host. Keep email records unchanged. Render is configured for both domains with www redirecting to the root domain; it issues HTTPS certificates after DNS verification.
 
 Sanity's project has an automatic Growth trial that downgrades to Free. This integration uses Free-plan features only.
+Paid scheduling, releases and comments are disabled in the editor. Compatible dependency overrides patch high-severity advisories in Sanity's build-tool dependencies; upstream CLI dependencies still report moderate advisories.
 
 Keep the Render deploy-hook URL secret. It belongs only in the Sanity publishing webhook configuration, never in this repository or browser JavaScript.
