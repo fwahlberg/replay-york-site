@@ -64,7 +64,7 @@ enquiryForm.addEventListener('submit', event => {
   const formattedDate = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeZone: 'Europe/London' }).format(new Date(`${data.get('date')}T12:00:00Z`));
   const subject = `Replay York enquiry: ${data.get('occasion')} — ${formattedDate}`;
   const body = `Hi Replay team,\n\nI'd like to enquire about a night out at Replay.\n\nName: ${data.get('name').trim()}\nEmail: ${data.get('email').trim()}\nPreferred date: ${formattedDate}\nGroup size: ${data.get('guests')}\nOccasion: ${data.get('occasion')}\n\n${data.get('message').trim()}\n\nPlease let me know what is available.\n\nThanks,\n${data.get('name').trim()}`;
-  const mailto = `mailto:info@replayyork.co.uk?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const mailto = `mailto:${document.body.dataset.contactEmail || 'info@replayyork.co.uk'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   const link = document.createElement('a');
   link.href = mailto;
   link.hidden = true;
