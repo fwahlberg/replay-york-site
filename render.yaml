@@ -2,7 +2,7 @@ services:
   - type: web
     runtime: static
     name: replay-york
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci && npm run build:static
     staticPublishPath: dist
     envVars:
       - key: SKIP_INSTALL_DEPS
@@ -13,3 +13,17 @@ services:
       - type: rewrite
         source: /admin/*
         destination: /admin/index.html
+  - type: web
+    runtime: node
+    name: replay-york-next
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22.18.0"
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
+      - key: SANITY_API_READ_TOKEN
+        sync: false

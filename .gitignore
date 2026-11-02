@@ -4,3 +4,7 @@ studio/.sanity/
 .env
 .env.*
 !.env.example
+
+.next/
+public/admin/
+*.tsbuildinfo
